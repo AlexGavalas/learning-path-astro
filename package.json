@@ -6,12 +6,11 @@
         "dev": "astro dev",
         "start": "astro dev",
         "build": "astro build",
-        "preview": "deno run --allow-net --allow-read --allow-env ./dist/server/entry.mjs",
+        "preview": "npx wrangler pages dev ./dist",
         "astro": "astro"
     },
     "devDependencies": {
         "@astrojs/cloudflare": "1.0.1",
-        "@astrojs/deno": "1.0.0",
         "@astrojs/mdx": "0.10.2",
         "@astrojs/react": "1.1.0",
         "@astrojs/tailwind": "1.0.0",
