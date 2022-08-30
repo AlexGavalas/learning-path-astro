@@ -9,5 +9,5 @@ import mdx from '@astrojs/mdx';
 export default defineConfig({
     integrations: [react(), tailwind(), mdx()],
     output: 'server',
-    adapter: cloudflare({ mode: 'directory' }),
+    adapter: cloudflare(),
 });
