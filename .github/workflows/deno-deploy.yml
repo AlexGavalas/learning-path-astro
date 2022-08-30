@@ -24,4 +24,3 @@ jobs:
               with:
                   project: learning-path-astro-deno
                   entrypoint: dist/server/entry.mjs
-                  root: dist/client
