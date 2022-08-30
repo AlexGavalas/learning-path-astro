@@ -10,9 +10,10 @@
         "astro": "astro"
     },
     "devDependencies": {
+        "@astrojs/cloudflare": "1.0.1",
         "@astrojs/deno": "1.0.0",
-        "@astrojs/react": "1.1.0",
         "@astrojs/mdx": "0.10.2",
+        "@astrojs/react": "1.1.0",
         "@astrojs/tailwind": "1.0.0",
         "@tailwindcss/typography": "0.5.4",
         "@types/react": "18.0.10",
