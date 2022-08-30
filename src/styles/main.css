@@ -1,0 +1,61 @@
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    scrollbar-gutter: stable both-edges;
+    overflow-y: auto;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+        Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+        sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+ul,
+figure,
+blockquote {
+    padding: 0;
+    margin: 0;
+}
+
+textarea {
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+button:focus,
+button:focus-visible {
+    outline: auto 2px Highlight;
+    outline: 2px auto -webkit-focus-ring-color;
+}
+
+/* Added to utilities layer to support tailwind modifiers */
+@layer utilities {
+    .heading h2 a {
+        @apply text-teal-500;
+    }
+
+    .dark-heading h2 a {
+        @apply text-yellow-500;
+    }
+}

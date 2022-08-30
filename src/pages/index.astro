@@ -1,0 +1,67 @@
+---
+import { compareDesc, parseISO } from 'date-fns';
+
+import Layout from '../layouts/main.astro';
+import SearchArea from '../components/search-area';
+import Date from '../components/date';
+
+const urlSearchParams = new URLSearchParams(Astro.url.search);
+const query = urlSearchParams.get('query') ?? '';
+
+const posts = await Astro.glob<{
+    updated: string;
+    date: string;
+    title: string;
+}>('./notes/*.mdx');
+
+const sortedPosts = posts.sort(
+    (a, b) =>
+        compareDesc(
+            parseISO(a.frontmatter.updated),
+            parseISO(b.frontmatter.updated)
+        ) || a.frontmatter.title.localeCompare(b.frontmatter.title)
+);
+---
+
+<Layout title="Astro playground">
+    <section class="leading-8 px-2 mt-4 text-xl">
+        <p class="text-center p-2">
+            Hey there. 👋 This is a place where I keep all the interesting stuff
+            I come across. Feel free to explore. It is a WIP, so you can expect
+            things to change.
+        </p>
+        <SearchArea query={query} client:idle />
+        <h2 class="my-8 text-black dark:text-white">Notes</h2>
+        {
+            sortedPosts.length > 0 ? (
+                <ul class="list-none p-0 divide-x-0 divide-y-2 divide-solid dark:divide-zinc-800 divide-zinc-300">
+                    {sortedPosts.map(
+                        ({ frontmatter: { updated, title }, url }) => (
+                            <li>
+                                <div class="group flex justify-between items-center cursor-pointer dark:hover:bg-neutral-800 hover:bg-gray-100 p-2">
+                                    <div class="flex gap-2 flex-col-reverse sm:flex-row">
+                                        <Date
+                                            dateString={updated}
+                                            format="dd/MM/yy"
+                                        />
+                                        <a
+                                            href={url}
+                                            class="text-teal-500 dark:text-yellow-500 hover:no-underline"
+                                        >
+                                            {title}
+                                        </a>
+                                    </div>
+                                    <span class="opacity-0 group-hover:animate-pulse">
+                                        &#x21dd;
+                                    </span>
+                                </div>
+                            </li>
+                        )
+                    )}
+                </ul>
+            ) : (
+                <p class="text-center">No notes found</p>
+            )
+        }
+    </section>
+</Layout>

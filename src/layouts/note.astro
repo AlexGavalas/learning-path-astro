@@ -1,0 +1,39 @@
+---
+import MainLayout from './main.astro';
+import FormattedDate from '../components/date';
+
+export interface Props {
+    frontmatter: {
+        updated: string;
+        date: string;
+        title: string;
+    };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<MainLayout title={frontmatter.title}>
+    <article>
+        <h1 class="my-8">{frontmatter.title}</h1>
+        <div class="text-gray-500 flex gap-2 mb-4">
+            <p>
+                Created at <FormattedDate dateString={frontmatter.date} />
+            </p>
+            <p>/</p>
+            <p>
+                Updated at <FormattedDate dateString={frontmatter.updated} />
+            </p>
+        </div>
+        <div
+            class="prose dark:prose-invert prose-headings:text-teal-500 dark:prose-headings:text-yellow-500 prose-li:marker:text-teal-500 dark:prose-li:marker:text-yellow-500 heading dark:dark-heading"
+        >
+            <slot />
+        </div>
+    </article>
+    <div class="my-8">
+        <a href="/" class="text-teal-500 dark:text-yellow-500">
+            &#x21dc; Back to home</a
+        >
+    </div>
+</MainLayout>
