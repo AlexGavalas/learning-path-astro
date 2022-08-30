@@ -6,7 +6,9 @@ export default function Header() {
     const [isMounted, setIsMounted] = useState(false);
 
     const [theme, setTheme] = useState(
-        localStorage?.getItem('theme') ?? 'light'
+        typeof window !== 'undefined'
+            ? window.localStorage?.getItem('theme') ?? 'light'
+            : 'light'
     );
 
     const toggleTheme = () => {
@@ -20,7 +22,9 @@ export default function Header() {
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark');
 
-        localStorage?.setItem('theme', theme);
+        if (typeof window !== 'undefined') {
+            window.localStorage?.setItem('theme', theme);
+        }
     }, [theme]);
 
     const image =
