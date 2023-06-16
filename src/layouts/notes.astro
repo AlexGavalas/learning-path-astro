@@ -1,10 +1,16 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/base-head.astro";
 import NoteHeader from "../components/note-header.astro";
 import { Header } from "../components/Header";
 
-type Props = CollectionEntry<"notes">["data"];
+type Props = {
+    created: string;
+    filename: string;
+    id: number;
+    line: string;
+    title: string;
+    updated: string;
+};
 
 const { title, created, updated } = Astro.props;
 ---

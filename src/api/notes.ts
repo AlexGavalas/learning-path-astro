@@ -45,3 +45,52 @@ export const fetchNotes = async (q: string) => {
         lines: {},
     };
 };
+
+export const getAllNoteIds = async () => {
+    const { data: fileNames, error } = await supabase.storage
+        .from("notes_md_files")
+        .list();
+
+    if (error) {
+        console.error(error);
+
+        return null;
+    }
+
+    return fileNames.map((file) => ({
+        id: file.name.replace(/\.mdx$/, ""),
+    }));
+};
+
+export const getNoteData = async (filename: string) => {
+    const filePath = `${filename}.mdx`;
+
+    const { data: fileContents, error } = await supabase.storage
+        .from("notes_md_files")
+        .download(filePath);
+
+    if (error) {
+        console.error(error);
+
+        return null;
+    }
+
+    return await fileContents.text();
+};
+
+export const getNoteMetadata = async (filename: string) => {
+    const { data, error } = await supabase
+        .from("notes")
+        .select("*")
+        .eq("filename", filename)
+        .limit(1)
+        .single();
+
+    if (error) {
+        console.error(error);
+
+        return null;
+    }
+
+    return data;
+};

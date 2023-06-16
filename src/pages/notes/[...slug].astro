@@ -1,24 +1,57 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
+import { getAllNoteIds, getNoteData, getNoteMetadata } from "../../api/notes";
 import NotesLayout from "../../layouts/notes.astro";
+import { Markdown } from "../../components/markdown";
 
 export async function getStaticPaths() {
-    const posts = await getCollection("notes");
-    return posts.map((post) => ({
-        params: { slug: post.slug },
-        props: post,
-    }));
-}
-type Props = CollectionEntry<"notes">;
+    const posts = await getAllNoteIds();
 
-const post = Astro.props;
-const { Content } = await post.render();
+    if (!posts) {
+        throw new Error("No posts found");
+    }
+
+    return await Promise.all(
+        posts.map(async (post) => {
+            const metaPromise = getNoteMetadata(post.id);
+            const contentPromise = getNoteData(post.id);
+
+            const [meta, content] = await Promise.all([
+                metaPromise,
+                contentPromise,
+            ]);
+
+            return {
+                params: {
+                    slug: post.id,
+                },
+                props: {
+                    content: content?.replace(/\s*---(.|\s)*?---\s*/, "") ?? "",
+                    meta,
+                },
+            };
+        })
+    );
+}
+
+type Props = {
+    content: string;
+    meta: {
+        created: string;
+        filename: string;
+        id: number;
+        line: string;
+        title: string;
+        updated: string;
+    };
+};
+
+const { content, meta } = Astro.props;
 ---
 
-<NotesLayout {...post.data}>
+<NotesLayout {...meta}>
     <div
         class="heading dark:dark-heading prose dark:prose-invert prose-headings:text-light-primary prose-li:marker:text-light-primary dark:prose-headings:text-dark-primary dark:prose-li:marker:text-dark-primary"
     >
-        <Content />
+        <Markdown content={content} />
     </div>
 </NotesLayout>

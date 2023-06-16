@@ -6,6 +6,8 @@ import NotesList from "../components/notes-list.astro";
 import { SearchArea } from "../components/search-area";
 import { fetchNotes } from "../api/notes";
 
+export const prerender = false;
+
 const q = Astro.url.searchParams.get("q") ?? "";
 
 const { notes, lines } = await fetchNotes(q);

@@ -3,9 +3,6 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeExternalLinks from "rehype-external-links";
-import rehypeSlug from "rehype-slug";
 import node from "@astrojs/node";
 
 const isProd = process.env.NODE_ENV === "production";
@@ -14,24 +11,7 @@ const isProd = process.env.NODE_ENV === "production";
 export default defineConfig({
     integrations: [mdx(), sitemap(), react(), tailwind()],
     site: isProd ? "https://learning-path.dev" : "http://localhost:3000",
-    markdown: {
-        rehypePlugins: [
-            [
-                rehypeExternalLinks,
-                {
-                    target: "_blank",
-                },
-            ],
-            rehypeSlug,
-            [
-                rehypeAutolinkHeadings,
-                {
-                    behavior: "wrap",
-                },
-            ],
-        ],
-    },
-    output: "server",
+    output: "hybrid",
     adapter: node({
         mode: "standalone",
     }),
