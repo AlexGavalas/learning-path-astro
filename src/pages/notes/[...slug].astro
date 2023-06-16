@@ -1,0 +1,24 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import NotesLayout from "../../layouts/notes.astro";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("notes");
+    return posts.map((post) => ({
+        params: { slug: post.slug },
+        props: post,
+    }));
+}
+type Props = CollectionEntry<"notes">;
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<NotesLayout {...post.data}>
+    <div
+        class="heading dark:dark-heading prose dark:prose-invert prose-headings:text-light-primary prose-li:marker:text-light-primary dark:prose-headings:text-dark-primary dark:prose-li:marker:text-dark-primary"
+    >
+        <Content />
+    </div>
+</NotesLayout>

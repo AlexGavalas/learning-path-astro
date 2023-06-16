@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/base-head.astro";
+import NoteHeader from "../components/note-header.astro";
+import { Header } from "../components/Header";
+
+type Props = CollectionEntry<"notes">["data"];
+
+const { title, created, updated } = Astro.props;
+---
+
+<html lang="en">
+    <head>
+        <BaseHead title={title} />
+    </head>
+    <body>
+        <div class="m-auto flex max-w-xl flex-col bg-white dark:bg-[#121212]">
+            <Header />
+            <main class="px-2">
+                <article>
+                    <NoteHeader
+                        title={title}
+                        created={created}
+                        updated={updated}
+                        timeZone="Europe/Athens"
+                    />
+                    <slot />
+                </article>
+            </main>
+        </div>
+    </body>
+</html>

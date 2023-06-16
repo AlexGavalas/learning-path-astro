@@ -1,0 +1,37 @@
+---
+import BaseHead from "../components/base-head.astro";
+import Banner from "../components/banner.astro";
+import { Header } from "../components/Header";
+import NotesList from "../components/notes-list.astro";
+import { SearchArea } from "../components/search-area";
+import { fetchNotes } from "../api/notes";
+
+const q = Astro.url.searchParams.get("q") ?? "";
+
+const { notes, lines } = await fetchNotes(q);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <BaseHead />
+    </head>
+    <body>
+        <div class="m-auto flex max-w-xl flex-col bg-white dark:bg-[#121212]">
+            <main class="px-2">
+                <Header />
+                <section class="text-xl leading-8">
+                    <Banner />
+                    <SearchArea client:idle q={q} />
+                    <h2 class="my-8 text-black dark:text-white">Notes</h2>
+                    <NotesList
+                        lines={lines}
+                        notes={notes}
+                        baseUrl="notes"
+                        timeZone="Europe/Athens"
+                    />
+                </section>
+            </main>
+        </div>
+    </body>
+</html>
