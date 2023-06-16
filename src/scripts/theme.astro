@@ -1,0 +1,22 @@
+<script is:inline>
+if (typeof document !== "undefined") {
+    const theme = (() => {
+        if (
+            typeof localStorage !== "undefined" &&
+            localStorage.getItem("theme")
+        ) {
+            return localStorage.getItem("theme");
+        }
+
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return "dark";
+        }
+
+        return "light";
+    })();
+
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.style.setProperty("color-scheme", theme);
+    window.localStorage.setItem("theme", theme);
+}
+</script>

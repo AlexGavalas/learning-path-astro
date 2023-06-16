@@ -1,24 +1,29 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "./button";
 
 export const Header = () => {
-    // const [mounted, setIsMounted] = useState(false);
-    // const { setTheme, resolvedTheme } = useTheme();
+    const [isMounted, setIsMounted] = useState(false);
 
-    // useEffect(() => {
-    // setIsMounted(true);
-    // }, []);
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") ?? "light"
+    );
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const toggleTheme = () => {
-        // setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
+        const newTheme = theme === "light" ? "dark" : "light";
+
+        setTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
+        document.documentElement.classList.toggle("dark", newTheme === "dark");
+        document.documentElement.style.setProperty("color-scheme", newTheme);
     };
 
-    const resolvedTheme = "light";
-    const mounted = true;
-
     const image =
-        resolvedTheme === "light"
+        theme === "light"
             ? {
                   src: "/moon.svg",
                   alt: "Moon",
@@ -38,8 +43,8 @@ export const Header = () => {
                     Learning Path
                 </a>
             </div>
-            {mounted && (
-                <div className="mr-3">
+            <div className="mr-3">
+                {isMounted && (
                     <Button onClick={toggleTheme} variant="wrapper">
                         <img
                             src={image.src}
@@ -48,8 +53,8 @@ export const Header = () => {
                             height={20}
                         />
                     </Button>
-                </div>
-            )}
+                )}
+            </div>
         </header>
     );
 };
