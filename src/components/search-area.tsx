@@ -1,6 +1,5 @@
 import {
     type FormEventHandler,
-    type MouseEventHandler,
     useCallback,
     useEffect,
     useRef,
@@ -9,7 +8,6 @@ import {
 
 import { Button } from "./button";
 import { Input } from "./input";
-
 import { useKeypress } from "../hooks/use-keypress";
 
 const QUERY_FIELD_NAME = "q";
@@ -52,18 +50,6 @@ export const SearchArea = ({ q }: { q: string }) => {
         window.location.href = url.toString();
     };
 
-    const onClear: MouseEventHandler<HTMLButtonElement> = async () => {
-        setQuery("");
-
-        queryEl.current?.focus();
-
-        const url = new URL(location.href);
-
-        url.searchParams.delete(QUERY_FIELD_NAME);
-
-        window.location.href = url.toString();
-    };
-
     return (
         <form onSubmit={onSubmit} className="relative flex h-16 items-center">
             <Input
@@ -74,13 +60,9 @@ export const SearchArea = ({ q }: { q: string }) => {
                 onChange={(e) => setQuery(e.target.value)}
                 autoComplete="off"
                 placeholder="Type here"
+                type="search"
             />
             <div className="absolute bottom-0 right-0 flex h-1/2 gap-2 p-1 text-sm">
-                {query && (
-                    <Button onClick={onClear} type="button">
-                        Clear
-                    </Button>
-                )}
                 <Button>Search</Button>
             </div>
             {loading && <Loader />}
