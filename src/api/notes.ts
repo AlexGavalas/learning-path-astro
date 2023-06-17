@@ -48,27 +48,37 @@ export const fetchNotes = async (
     };
 };
 
+// Gets all note slugs
+
+type NoteSlugs = { slug: string }[];
+
+const getSlugsFromStorage = async (): Promise<NoteSlugs | null> => {
+    const { data: fileNames, error } = await supabase.storage
+        .from('notes_md_files')
+        .list();
+
+    if (error !== null) {
+        console.error(error);
+
+        return null;
+    }
+
+    return fileNames.map((file) => ({
+        slug: file.name.replace(/\.mdx?$/, ''),
+    }));
+};
+
 export const getAllNoteIds = async (): Promise<{ slug: string }[] | null> => {
     const isProd = import.meta.env.PROD;
 
     if (isProd) {
-        const { data: fileNames, error } = await supabase.storage
-            .from('notes_md_files')
-            .list();
-
-        if (error !== null) {
-            console.error(error);
-
-            return null;
-        }
-
-        return fileNames.map((file) => ({
-            slug: file.name.replace(/\.mdx?$/, ''),
-        }));
+        return await getSlugsFromStorage();
     }
 
     return await getCollection('notes');
 };
+
+// Gets note data
 
 type AstroRenderFn = NonNullable<
     Awaited<ReturnType<typeof getEntryBySlug>>
@@ -76,31 +86,39 @@ type AstroRenderFn = NonNullable<
 
 type AstroRenderResult = Awaited<ReturnType<AstroRenderFn>>;
 
+const getNoteDataFromStorage = async (
+    filePath: string,
+): Promise<string | null> => {
+    const { data: fileContents, error } = await supabase.storage
+        .from('notes_md_files')
+        .download(filePath);
+
+    if (error !== null) {
+        console.error(error);
+
+        return null;
+    }
+
+    return await fileContents.text();
+};
+
 export const getNoteData = async (
     filename: string,
 ): Promise<AstroRenderResult | string | null> => {
     const isProd = import.meta.env.PROD;
 
-    const filePath = `${filename}.mdx`;
-
     if (isProd) {
-        const { data: fileContents, error } = await supabase.storage
-            .from('notes_md_files')
-            .download(filePath);
+        const filePath = `${filename}.mdx`;
 
-        if (error !== null) {
-            console.error(error);
-
-            return null;
-        }
-
-        return await fileContents.text();
+        return await getNoteDataFromStorage(filePath);
     }
 
     const note = await getEntryBySlug('notes', filename);
 
     return (await note?.render()) ?? '';
 };
+
+// Gets note metadata
 
 export const getNoteMetadata = async (
     filename: string,
