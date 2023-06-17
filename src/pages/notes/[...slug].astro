@@ -3,6 +3,7 @@ import type { MarkdownHeading } from 'astro';
 import type { AstroComponentFactory } from 'astro/dist/runtime/server';
 
 import type { NotesCollection } from '../../types/notes.types';
+
 import NotesLayout from '../../layouts/note.astro';
 import { getAllNoteIds, getNoteData, getNoteMetadata } from '../../api/notes';
 import { Markdown } from '../../components/markdown';

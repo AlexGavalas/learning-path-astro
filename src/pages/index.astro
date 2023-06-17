@@ -1,9 +1,7 @@
 ---
-import Theme from '../scripts/theme.astro';
-import BaseHead from '../components/base-head.astro';
+import GlobalLayout from '../layouts/global.astro';
 import Banner from '../components/banner.astro';
 import NotesList from '../components/notes-list.astro';
-import { Header } from '../components/header';
 import { SearchArea } from '../components/search-area';
 import { fetchNotes } from '../api/notes';
 import { QUERY_FIELD_NAME, TITLE } from '../constants';
@@ -17,28 +15,16 @@ const { notes, lines } = await fetchNotes(q);
 const title = q ? `${q} | ${TITLE}` : TITLE;
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <BaseHead title={title} />
-        <Theme />
-    </head>
-    <body>
-        <div class="m-auto flex max-w-xl flex-col bg-white dark:bg-[#121212]">
-            <main class="px-2">
-                <Header client:idle />
-                <section class="text-xl leading-8">
-                    <Banner />
-                    <SearchArea client:idle q={q} />
-                    <h2 class="my-8 text-black dark:text-white">Notes</h2>
-                    <NotesList
-                        lines={lines}
-                        notes={notes}
-                        baseUrl="notes"
-                        timeZone="Europe/Athens"
-                    />
-                </section>
-            </main>
-        </div>
-    </body>
-</html>
+<GlobalLayout title={title}>
+    <section class="text-xl leading-8 grid gap-6">
+        <Banner />
+        <SearchArea client:idle q={q} />
+        <h2 class="text-black dark:text-white">Notes</h2>
+        <NotesList
+            lines={lines}
+            notes={notes}
+            baseUrl="notes"
+            timeZone="Europe/Athens"
+        />
+    </section>
+</GlobalLayout>
