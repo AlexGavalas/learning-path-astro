@@ -1,0 +1,133 @@
+---
+title: Testing
+created: '2023-01-09'
+updated: '2023-04-13'
+published: true
+---
+
+Find [here](https://github.com/goldbergyoni/javascript-testing-best-practices) and
+[here](https://github.com/testjavascript/nodejs-integration-tests-best-practices) a list of best practices for testing.
+
+---
+
+# Frameworks
+
+Here are some popular frameworks and libraries to check out regarding various types of testing.
+
+## Unit
+
+This is the simplest form of testing. Its purpose is to test individual "units" of software and validate each piece works as expected in isolation.
+
+You can find a sample usage of all the below libraries in this [repository](https://github.com/AlexGavalas/test-runners).
+Each library is setup with Typescript and React, and configured to run some simple tests N times, to provide a pretty basic performance benchmark.
+A more thorough review will follow.
+
+-   [Jest](https://github.com/facebook/jest)
+-   [Mocha](https://github.com/mochajs/mocha)
+-   [Jasmine](https://github.com/jasmine/jasmine)
+-   [Vitest](https://github.com/vitest-dev/vitest)
+-   [Ava](https://github.com/avajs/ava)
+-   [UVU](https://github.com/lukeed/uvu)
+-   [XV](https://github.com/typicode/xv)
+-   [Node Tap](https://github.com/tapjs/node-tap)
+-   [Unexpected](https://github.com/unexpectedjs/unexpected)
+-   [Tape](https://github.com/ljharb/tape)
+-   [Japa](https://github.com/japa/runner)
+-   [Node Test Runner](https://nodejs.org/docs/latest-v18.x/api/test.html)
+
+[Intern](https://github.com/theintern/intern) is also an option, but I could not set it up with Typescript.
+
+## E2E
+
+E2E (End To End) is a software testing method that validates the entire software along with its integration with external interfaces.
+
+-   [Cypress](https://github.com/cypress-io/cypress) and the [cypress-testing-library](https://github.com/testing-library/cypress-testing-library).
+-   [Playwright](https://github.com/microsoft/playwright)
+-   [Nightwatch](https://github.com/nightwatchjs/nightwatch)
+-   [Taiko](https://github.com/getgauge/taiko)
+-   [TestCafe](https://github.com/DevExpress/testcafe)
+-   [QA Wolf](https://github.com/qawolf/qawolf)
+-   [Webdriver](https://github.com/webdriverio/webdriverio)
+
+## Benchmarking
+
+Benchmark testing measures a repeatable set of quantifiable results that serves as a point of reference against which units/services can be compared.
+
+-   [tinybench](https://github.com/tinylibs/tinybench)
+
+## Property based
+
+As stated in the <cite>[fast-check repo](https://github.com/dubzzz/fast-check)</cite>,
+"property based testing frameworks check the truthfulness of properties.
+A property is a statement like: for all (x, y, ...) such that precondition(x, y, ...) holds predicate(x, y, ...) is true".
+
+-   [fast-check](https://github.com/dubzzz/fast-check)
+
+## Mutation
+
+Bugs, or "mutants", are automatically inserted into the code. The tests are run for each mutant.
+If the tests fail then the mutant is killed. The higher the percentage of mutants killed, the more effective the tests are.
+
+-   [Stryker Mutator](https://github.com/stryker-mutator/stryker-js)
+
+## Visual
+
+-   [Applitools](https://applitools.com)
+
+---
+
+# HTTP
+
+Frameworks and libraries to help you test Node.js HTTP servers.
+
+-   [supertest](https://github.com/ladjs/supertest)
+-   [superwstest](https://github.com/davidje13/superwstest)
+-   [nock](https://github.com/nock/nock)
+-   [node-mocks-http](https://github.com/howardabrams/node-mocks-http)
+-   [OpenAPI Validators](https://github.com/openapi-library/OpenAPIValidators)
+-   [pact](https://github.com/pact-foundation/pact-js)
+
+## Benchmarking
+
+-   [autocannon](https://github.com/mcollina/autocannon)
+-   [oha](https://github.com/hatoo/oha)
+-   [api-benchmark](https://github.com/matteofigus/api-benchmark)
+-   [artillery](https://github.com/artilleryio/artillery)
+-   [loadtest](https://github.com/alexfernandez/loadtest)
+
+---
+
+# Utilities
+
+## Assertions
+
+-   [chai](https://github.com/chaijs/chai)
+-   [spok](https://github.com/thlorenz/spok)
+
+## Mocking
+
+-   [MSW](https://github.com/mswjs/msw)
+-   [Mirage](https://github.com/miragejs/miragejs)
+-   [Sinon](https://github.com/sinonjs/sinon)
+-   [esmock](https://github.com/iambumblehead/esmock)
+
+## Jest specific
+
+-   [Jest Axe](https://github.com/nickcolley/jest-axe)
+-   [Jest Fetch Mock](https://github.com/jefflau/jest-fetch-mock)
+-   [Jest Extended](https://github.com/jest-community/jest-extended)
+-   [Jest Preview](https://github.com/nvh95/jest-preview)
+-   [Jest Image Snapshot](https://github.com/americanexpress/jest-image-snapshot)
+-   [Jest Watch Typeahead](https://github.com/jest-community/jest-watch-typeahead)
+
+## Fake data
+
+-   [Faker](https://github.com/faker-js/faker/)
+-   [JSON Schema Faker](https://github.com/json-schema-faker/json-schema-faker)
+-   [Test Data Bot](https://github.com/jackfranklin/test-data-bot)
+
+---
+
+# Misc
+
+-   [trace.cafe](https://trace.cafe/)
