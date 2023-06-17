@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import node from '@astrojs/node';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel/edge';
 import { REHYPE_PLUGINS } from './src/config/markdown';
 
 const isProd = import.meta.env.PROD;
@@ -18,10 +18,6 @@ export default defineConfig({
     markdown: {
         rehypePlugins: REHYPE_PLUGINS,
     },
-    output: 'server',
-    adapter: isLocalBuild
-        ? node({
-              mode: 'standalone',
-          })
-        : vercel(),
+    output: 'hybrid',
+    adapter: isLocalBuild ? node({ mode: 'standalone' }) : vercel(),
 });

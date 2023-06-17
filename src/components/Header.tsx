@@ -17,7 +17,9 @@ export const Header = (): JSX.Element => {
     const [isMounted, setIsMounted] = useState(false);
 
     const [theme, setTheme] = useState(
-        localStorage.getItem(STORAGE_KEY.THEME) ?? DEFAULT_THEME,
+        typeof localStorage !== 'undefined'
+            ? localStorage.getItem(STORAGE_KEY.THEME) ?? DEFAULT_THEME
+            : DEFAULT_THEME,
     );
 
     useEffect(() => {

@@ -2,7 +2,24 @@
     "extends": "astro/tsconfigs/strict",
     "compilerOptions": {
         "strictNullChecks": true,
+        "allowImportingTsExtensions": true,
         "jsx": "react-jsx",
-        "jsxImportSource": "react"
+        "jsxImportSource": "react",
+        "baseUrl": "./src",
+        "paths": {
+            "~api/*": ["api/*"],
+            "~components/*": ["components/*"],
+            "~config/*": ["config/*"],
+            "~content/*": ["content/*"],
+            "~hooks/*": ["hooks/*"],
+            "~layouts/*": ["layouts/*"],
+            "~lib/*": ["lib/*"],
+            "~pages/*": ["pages/*"],
+            "~scripts/*": ["scripts/*"],
+            "~features/*": ["features/*"],
+            "~styles/*": ["styles/*"],
+            "~test/*": ["test/*"],
+            "~types/*": ["types/*"]
+        }
     }
 }
