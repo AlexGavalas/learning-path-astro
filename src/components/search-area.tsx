@@ -75,7 +75,7 @@ export const SearchArea = ({ q }: { q: string }) => {
                 autoComplete="off"
                 placeholder="Type here"
             />
-            <div className="absolute bottom-0 right-0 flex h-1/2 gap-2 p-1">
+            <div className="absolute bottom-0 right-0 flex h-1/2 gap-2 p-1 text-sm">
                 {query && (
                     <Button onClick={onClear} type="button">
                         Clear

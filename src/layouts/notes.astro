@@ -32,7 +32,17 @@ const { title, created, updated } = Astro.props;
                         updated={updated}
                         timeZone="Europe/Athens"
                     />
-                    <slot />
+                    <div
+                        class="heading dark:dark-heading prose dark:prose-invert prose-headings:text-light-primary prose-li:marker:text-light-primary dark:prose-headings:text-dark-primary dark:prose-li:marker:text-dark-primary"
+                    >
+                        <slot />
+                    </div>
+                    <a
+                        href="/"
+                        class="my-8 inline-block cursor-pointer bg-transparent p-0 text-lg text-light-primary hover:underline dark:text-dark-primary"
+                    >
+                        &#x21dc; Back to home
+                    </a>
                 </article>
             </main>
         </div>

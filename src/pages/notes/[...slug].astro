@@ -10,6 +10,9 @@ export async function getStaticPaths() {
         throw new Error("No posts found");
     }
 
+    const removeFrontmatter = (s: string | null) =>
+        s?.replace(/\s*---(.|\s)*?---\s*/, "");
+
     return await Promise.all(
         posts.map(async (post) => {
             const metaPromise = getNoteMetadata(post.id);
@@ -25,7 +28,7 @@ export async function getStaticPaths() {
                     slug: post.id,
                 },
                 props: {
-                    content: content?.replace(/\s*---(.|\s)*?---\s*/, "") ?? "",
+                    content: removeFrontmatter(content) ?? "",
                     meta,
                 },
             };
@@ -49,9 +52,5 @@ const { content, meta } = Astro.props;
 ---
 
 <NotesLayout {...meta}>
-    <div
-        class="heading dark:dark-heading prose dark:prose-invert prose-headings:text-light-primary prose-li:marker:text-light-primary dark:prose-headings:text-dark-primary dark:prose-li:marker:text-dark-primary"
-    >
-        <Markdown content={content} />
-    </div>
+    <Markdown content={content} />
 </NotesLayout>

@@ -14,7 +14,7 @@ const InputComponent = (
             <input
                 {...props}
                 ref={ref}
-                className="h-1/2 w-full rounded border-[1px] border-solid bg-transparent pl-2 dark:border-0 dark:bg-neutral-800 dark:placeholder-gray-300 dark:placeholder-opacity-50"
+                className="h-1/2 w-full text-sm rounded border-[1px] border-solid bg-transparent pl-2 dark:border-0 dark:bg-neutral-800 dark:placeholder-gray-300 dark:placeholder-opacity-50"
             />
         </label>
     );
