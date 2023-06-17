@@ -1,10 +1,10 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, z } from 'astro:content';
 
 const notes = defineCollection({
     schema: z.object({
         title: z.string(),
-        created: z.string().transform((val) => new Date(val)),
-        updated: z.string().transform((val) => new Date(val)),
+        created: z.string(),
+        updated: z.string(),
         published: z.boolean().optional(),
     }),
 });

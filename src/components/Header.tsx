@@ -1,37 +1,44 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { Button } from "./button";
+import { DEFAULT_THEME, STORAGE_KEY, THEME } from '../constants';
+import { Button } from './button';
 
-export const Header = () => {
+const LIGHT_IMG_PROPS = {
+    src: '/moon.svg',
+    alt: 'Moon',
+};
+
+const DARK_IMG_PROPS = {
+    src: '/sun.svg',
+    alt: 'Sun',
+};
+
+export const Header = (): JSX.Element => {
     const [isMounted, setIsMounted] = useState(false);
 
     const [theme, setTheme] = useState(
-        localStorage.getItem("theme") ?? "light"
+        localStorage.getItem(STORAGE_KEY.THEME) ?? DEFAULT_THEME,
     );
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
-    const toggleTheme = () => {
-        const newTheme = theme === "light" ? "dark" : "light";
+    const toggleTheme = (): void => {
+        const newTheme = theme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT;
 
         setTheme(newTheme);
-        localStorage.setItem("theme", newTheme);
-        document.documentElement.classList.toggle("dark", newTheme === "dark");
-        document.documentElement.style.setProperty("color-scheme", newTheme);
+
+        document.documentElement.classList.toggle(
+            'dark',
+            newTheme === THEME.DARK,
+        );
+        document.documentElement.style.setProperty('color-scheme', newTheme);
+
+        localStorage.setItem(STORAGE_KEY.THEME, newTheme);
     };
 
-    const image =
-        theme === "light"
-            ? {
-                  src: "/moon.svg",
-                  alt: "Moon",
-              }
-            : {
-                  src: "/sun.svg",
-                  alt: "Sun",
-              };
+    const image = theme === THEME.LIGHT ? LIGHT_IMG_PROPS : DARK_IMG_PROPS;
 
     return (
         <header className="flex w-full items-center justify-between border-0 border-b border-solid dark:border-b-white">

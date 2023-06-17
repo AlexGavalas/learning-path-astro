@@ -1,27 +1,25 @@
 <script is:inline>
-if (typeof document !== "undefined") {
+if (typeof document !== 'undefined') {
     const STORAGE_KEY = {
-        THEME: "theme",
+        THEME: 'theme',
     };
 
     const THEME = {
-        DARK: "dark",
-        LIGHT: "light",
+        DARK: 'dark',
+        LIGHT: 'light',
     };
 
     const DEFAULT_THEME = THEME.LIGHT;
 
     const getTheme = () => {
-        const hasLocalStorage = typeof localStorage !== "undefined";
-        const storedTheme =
-            hasLocalStorage && localStorage.getItem(STORAGE_KEY.THEME);
+        const storedTheme = localStorage.getItem(STORAGE_KEY.THEME);
 
         if (storedTheme) {
             return storedTheme;
         }
 
         const prefersDarkColorScheme = window.matchMedia(
-            "(prefers-color-scheme: dark)"
+            '(prefers-color-scheme: dark)',
         ).matches;
 
         if (prefersDarkColorScheme) {
@@ -33,8 +31,8 @@ if (typeof document !== "undefined") {
 
     const theme = getTheme();
 
-    document.documentElement.classList.toggle("dark", theme === THEME.DARK);
-    document.documentElement.style.setProperty("color-scheme", theme);
+    document.documentElement.classList.toggle('dark', theme === THEME.DARK);
+    document.documentElement.style.setProperty('color-scheme', theme);
 
     window.localStorage.setItem(STORAGE_KEY.THEME, theme);
 }

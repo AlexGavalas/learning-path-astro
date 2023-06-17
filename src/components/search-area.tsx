@@ -4,19 +4,15 @@ import {
     useEffect,
     useRef,
     useState,
-} from "react";
+} from 'react';
 
-import { Button } from "./button";
-import { Input } from "./input";
-import { useKeypress } from "../hooks/use-keypress";
+import Loader from './loader.astro';
+import { Button } from './button';
+import { Input } from './input';
+import { useKeypress } from '../hooks/use-keypress';
+import { QUERY_FIELD_NAME } from '../constants';
 
-const QUERY_FIELD_NAME = "q";
-
-const Loader = () => (
-    <div className="absolute bottom-[-8px] h-[2px] w-full animate-loader bg-gradient-to-r from-white from-0% via-light-primary via-50% to-white to-100% bg-[length:25%_100%] bg-center bg-no-repeat dark:via-dark-primary" />
-);
-
-export const SearchArea = ({ q }: { q: string }) => {
+export const SearchArea = ({ q }: { q: string }): JSX.Element => {
     const queryEl = useRef<HTMLInputElement>(null);
 
     const [query, setQuery] = useState(q);
@@ -32,16 +28,16 @@ export const SearchArea = ({ q }: { q: string }) => {
         setLoading(false);
     }, []);
 
-    useKeypress("/", keyPressHandler);
+    useKeypress('/', keyPressHandler);
 
-    const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
 
         setLoading(true);
 
         const url = new URL(location.href);
 
-        if (query) {
+        if (query.length > 0) {
             url.searchParams.set(QUERY_FIELD_NAME, query);
         } else {
             url.searchParams.delete(QUERY_FIELD_NAME);
@@ -57,7 +53,9 @@ export const SearchArea = ({ q }: { q: string }) => {
                 name={QUERY_FIELD_NAME}
                 ref={queryEl}
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                    setQuery(e.target.value);
+                }}
                 autoComplete="off"
                 placeholder="Type here"
                 type="search"

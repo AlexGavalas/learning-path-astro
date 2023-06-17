@@ -1,0 +1,11 @@
+# local env files
+.env
+
+# Astro
+.astro
+
+# production
+dist
+
+# lockfile
+pnpm-lock.yaml

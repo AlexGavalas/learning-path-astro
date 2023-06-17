@@ -1,17 +1,11 @@
 ---
-import Theme from "../scripts/theme.astro";
-import BaseHead from "../components/base-head.astro";
-import NoteHeader from "../components/note-header.astro";
-import { Header } from "../components/Header";
+import type { NotesCollection } from '../types/notes.types';
+import Theme from '../scripts/theme.astro';
+import BaseHead from '../components/base-head.astro';
+import NoteHeader from '../components/note-header.astro';
+import { Header } from '../components/header';
 
-type Props = {
-    created: string;
-    filename: string;
-    id: number;
-    line: string;
-    title: string;
-    updated: string;
-};
+type Props = NotesCollection['data'];
 
 const { title, created, updated } = Astro.props;
 ---

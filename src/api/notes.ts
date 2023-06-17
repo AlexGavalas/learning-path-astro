@@ -1,37 +1,39 @@
-import { createClient } from "@vercel/edge-config";
+import { createClient } from '@vercel/edge-config';
+import { getEntryBySlug, getCollection } from 'astro:content';
 
-import { supabase } from "../lib/supabase";
-import type { Note } from "../types/notes.types";
+import { supabase } from '../lib/supabase';
+import type { Note, NotesCollection } from '../types/notes.types';
 
 type Lines = Record<string, string[]>;
 
 const edgeConfig = createClient(import.meta.env.PUBLIC_EDGE_CONFIG);
 
-export const fetchNotes = async (q: string) => {
-    const data = await edgeConfig.get<Note[]>("meta");
+export const fetchNotes = async (
+    q: string,
+): Promise<{ lines: Lines; notes: Note[] }> => {
+    const data = await edgeConfig.get<Note[]>('meta');
 
     const allNotes = data ?? [];
 
-    if (q) {
-        const { data, error } = await supabase.rpc("search_notes", { q });
+    if (q.length > 0) {
+        const { data, error } = await supabase.rpc('search_notes', { q });
 
-        if (error) {
+        if (error !== null) {
             return {
                 notes: [],
                 lines: {},
-                error: true,
             };
         }
 
         const lines = data.reduce<Lines>((acc, { title, line }) => {
-            acc[title] = (acc[title] || []).concat(line);
+            acc[title] = (acc[title] ?? []).concat(line);
             return acc;
         }, {});
 
         const noteTitles = new Set(data.map(({ title }) => title));
 
         const filteredNotes = allNotes.filter(({ title }) =>
-            noteTitles.has(title)
+            noteTitles.has(title),
         );
 
         return {
@@ -46,47 +48,71 @@ export const fetchNotes = async (q: string) => {
     };
 };
 
-export const getAllNoteIds = async () => {
-    const { data: fileNames, error } = await supabase.storage
-        .from("notes_md_files")
-        .list();
+export const getAllNoteIds = async (): Promise<{ slug: string }[] | null> => {
+    const isProd = import.meta.env.PROD;
 
-    if (error) {
-        console.error(error);
+    if (isProd) {
+        const { data: fileNames, error } = await supabase.storage
+            .from('notes_md_files')
+            .list();
 
-        return null;
+        if (error !== null) {
+            console.error(error);
+
+            return null;
+        }
+
+        return fileNames.map((file) => ({
+            slug: file.name.replace(/\.mdx?$/, ''),
+        }));
     }
 
-    return fileNames.map((file) => ({
-        id: file.name.replace(/\.mdx$/, ""),
-    }));
+    return await getCollection('notes');
 };
 
-export const getNoteData = async (filename: string) => {
+type AstroRenderFn = NonNullable<
+    Awaited<ReturnType<typeof getEntryBySlug>>
+>['render'];
+
+type AstroRenderResult = Awaited<ReturnType<AstroRenderFn>>;
+
+export const getNoteData = async (
+    filename: string,
+): Promise<AstroRenderResult | string | null> => {
+    const isProd = import.meta.env.PROD;
+
     const filePath = `${filename}.mdx`;
 
-    const { data: fileContents, error } = await supabase.storage
-        .from("notes_md_files")
-        .download(filePath);
+    if (isProd) {
+        const { data: fileContents, error } = await supabase.storage
+            .from('notes_md_files')
+            .download(filePath);
 
-    if (error) {
-        console.error(error);
+        if (error !== null) {
+            console.error(error);
 
-        return null;
+            return null;
+        }
+
+        return await fileContents.text();
     }
 
-    return await fileContents.text();
+    const note = await getEntryBySlug('notes', filename);
+
+    return (await note?.render()) ?? '';
 };
 
-export const getNoteMetadata = async (filename: string) => {
+export const getNoteMetadata = async (
+    filename: string,
+): Promise<NotesCollection['data'] | null> => {
     const { data, error } = await supabase
-        .from("notes")
-        .select("*")
-        .eq("filename", filename)
+        .from('notes')
+        .select('*')
+        .eq('filename', filename)
         .limit(1)
-        .single();
+        .maybeSingle();
 
-    if (error) {
+    if (error !== null) {
         console.error(error);
 
         return null;

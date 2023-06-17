@@ -1,22 +1,26 @@
 ---
-import { getAllNoteIds, getNoteData, getNoteMetadata } from "../../api/notes";
-import NotesLayout from "../../layouts/notes.astro";
-import { Markdown } from "../../components/markdown";
+import type { MarkdownHeading } from 'astro';
+import type { AstroComponentFactory } from 'astro/dist/runtime/server';
+
+import type { NotesCollection } from '../../types/notes.types';
+import NotesLayout from '../../layouts/note.astro';
+import { getAllNoteIds, getNoteData, getNoteMetadata } from '../../api/notes';
+import { Markdown } from '../../components/markdown';
 
 export async function getStaticPaths() {
     const posts = await getAllNoteIds();
 
     if (!posts) {
-        throw new Error("No posts found");
+        throw new Error('No posts found');
     }
 
-    const removeFrontmatter = (s: string | null) =>
-        s?.replace(/\s*---(.|\s)*?---\s*/, "");
+    const removeFrontmatter = (s?: string) =>
+        s?.replace(/\s*---(.|\s)*?---\s*/, '');
 
     return await Promise.all(
         posts.map(async (post) => {
-            const metaPromise = getNoteMetadata(post.id);
-            const contentPromise = getNoteData(post.id);
+            const metaPromise = getNoteMetadata(post.slug);
+            const contentPromise = getNoteData(post.slug);
 
             const [meta, content] = await Promise.all([
                 metaPromise,
@@ -25,32 +29,39 @@ export async function getStaticPaths() {
 
             return {
                 params: {
-                    slug: post.id,
+                    slug: post.slug,
                 },
                 props: {
-                    content: removeFrontmatter(content) ?? "",
+                    content: import.meta.env.PROD
+                        ? removeFrontmatter(content?.toString()) ?? ''
+                        : content ?? '',
                     meta,
                 },
             };
-        })
+        }),
     );
 }
 
 type Props = {
-    content: string;
-    meta: {
-        created: string;
-        filename: string;
-        id: number;
-        line: string;
-        title: string;
-        updated: string;
-    };
+    content:
+        | string
+        | {
+              Content: AstroComponentFactory;
+              headings: MarkdownHeading[];
+              remarkPluginFrontmatter: Record<string, any>;
+          };
+    meta: NotesCollection['data'];
 };
 
 const { content, meta } = Astro.props;
 ---
 
 <NotesLayout {...meta}>
-    <Markdown content={content} />
+    {
+        typeof content === 'string' ? (
+            <Markdown content={content} />
+        ) : (
+            <content.Content />
+        )
+    }
 </NotesLayout>
