@@ -18,7 +18,7 @@ export default defineConfig({
     markdown: {
         rehypePlugins: REHYPE_PLUGINS,
     },
-    output: 'hybrid',
+    output: 'server',
     adapter: isLocalBuild
         ? node({
               mode: 'standalone',
