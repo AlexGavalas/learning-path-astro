@@ -12,6 +12,7 @@
         "check:format": "pnpm prettier --list-different",
         "format": "pnpm prettier --write",
         "lint": "eslint --ignore-path .gitignore .",
+        "check:types": "tsc --noEmit",
         "validate": "pnpm lint && pnpm check:format"
     },
     "dependencies": {

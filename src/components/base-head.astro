@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { DESCRIPTION, SITE_URL } from '../constants';
 
 export type Props = {
-    title?: string;
+    title: string;
 };
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);

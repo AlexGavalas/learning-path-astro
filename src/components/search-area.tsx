@@ -6,17 +6,16 @@ import {
     useState,
 } from 'react';
 
-import Loader from './loader.astro';
+import { Loader } from './loader';
 import { Button } from './button';
 import { Input } from './input';
 import { useKeypress } from '../hooks/use-keypress';
 import { QUERY_FIELD_NAME } from '../constants';
 
 export const SearchArea = ({ q }: { q: string }): JSX.Element => {
-    const queryEl = useRef<HTMLInputElement>(null);
+    const queryEl = useRef<HTMLInputElement | null>(null);
 
     const [query, setQuery] = useState(q);
-
     const [loading, setLoading] = useState(false);
 
     const keyPressHandler = useCallback((e: KeyboardEvent) => {
@@ -56,9 +55,9 @@ export const SearchArea = ({ q }: { q: string }): JSX.Element => {
                 onChange={(e) => {
                     setQuery(e.target.value);
                 }}
+                autoFocus={query.length > 0}
                 autoComplete="off"
                 placeholder="Type here"
-                type="search"
             />
             <div className="absolute bottom-0 right-0 flex h-1/2 gap-2 p-1 text-sm">
                 <Button>Search</Button>

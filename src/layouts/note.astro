@@ -4,15 +4,18 @@ import Theme from '../scripts/theme.astro';
 import BaseHead from '../components/base-head.astro';
 import NoteHeader from '../components/note-header.astro';
 import { Header } from '../components/header';
+import { TITLE } from '../constants';
 
 type Props = NotesCollection['data'];
 
 const { title, created, updated } = Astro.props;
+
+const documentTitle = `${title} | ${TITLE}`;
 ---
 
 <html lang="en">
     <head>
-        <BaseHead title={title} />
+        <BaseHead title={documentTitle} />
         <Theme />
     </head>
     <body>
