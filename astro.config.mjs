@@ -9,15 +9,19 @@ import vercel from '@astrojs/vercel/serverless';
 import { REHYPE_PLUGINS } from './src/config/markdown';
 
 const isProd = import.meta.env.PROD;
-const isLocalBuild = process.env.LOCAL;
+const isLocalBuild = process.env.LOCAL === 'true';
 
 // https://astro.build/config
 export default defineConfig({
     integrations: [mdx(), sitemap(), react(), tailwind()],
     site: isProd ? 'https://learning-path.dev' : 'http://localhost:3000',
-    output: 'hybrid',
     markdown: {
         rehypePlugins: REHYPE_PLUGINS,
     },
-    adapter: isLocalBuild ? node() : vercel(),
+    output: 'hybrid',
+    adapter: isLocalBuild
+        ? node({
+              mode: 'standalone',
+          })
+        : vercel(),
 });
