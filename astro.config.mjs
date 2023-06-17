@@ -1,12 +1,15 @@
+import 'dotenv/config';
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import node from '@astrojs/node';
+import vercel from '@astrojs/vercel/serverless';
 import { REHYPE_PLUGINS } from './src/config/markdown';
 
 const isProd = import.meta.env.PROD;
+const isLocalBuild = process.env.LOCAL;
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,7 +19,5 @@ export default defineConfig({
     markdown: {
         rehypePlugins: REHYPE_PLUGINS,
     },
-    adapter: node({
-        mode: 'standalone',
-    }),
+    adapter: isLocalBuild ? node() : vercel(),
 });
