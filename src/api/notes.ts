@@ -1,5 +1,9 @@
 import { createClient } from '@vercel/edge-config';
-import { getEntryBySlug, getCollection } from 'astro:content';
+import {
+    getEntryBySlug,
+    getCollection,
+    type CollectionEntry,
+} from 'astro:content';
 
 import { supabase } from '~lib/supabase';
 import type { Note, NotesCollection } from '~types/notes.types';
@@ -80,11 +84,9 @@ export const getAllNoteIds = async (): Promise<{ slug: string }[] | null> => {
 
 // Gets note data
 
-type AstroRenderFn = NonNullable<
-    Awaited<ReturnType<typeof getEntryBySlug>>
->['render'];
-
-type AstroRenderResult = Awaited<ReturnType<AstroRenderFn>>;
+type AstroRenderResult = Awaited<
+    ReturnType<CollectionEntry<'notes'>['render']>
+>;
 
 const getNoteDataFromStorage = async (
     filePath: string,

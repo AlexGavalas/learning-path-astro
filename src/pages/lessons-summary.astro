@@ -1,18 +1,15 @@
 ---
 import GlobalLayout from '~layouts/global.astro';
 import NotesList from '~components/notes-list.astro';
-import { supabase } from '~lib/supabase';
+import { getLessonSummaries } from '~api/lesson-summaries';
 import { TITLE } from '~constants';
 
 export const prerender = false;
 
-const { data: summaries, error } = await supabase
-    .from('lesson_summaries_meta')
-    .select('*')
-    .order('updated', { ascending: false });
+const summaries = await getLessonSummaries();
 
-if (error) {
-    throw error;
+if (summaries === null) {
+    throw new Error('Could not get lesson summaries');
 }
 
 const title = `Lesson Summaries | ${TITLE}`;
