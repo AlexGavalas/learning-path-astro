@@ -25,7 +25,7 @@ export const SearchArea = ({ q }: { q: string }): JSX.Element => {
 
     useEffect(() => {
         setLoading(false);
-    }, []);
+    }, [q]);
 
     useKeypress('/', keyPressHandler);
 
