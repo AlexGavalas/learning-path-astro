@@ -6,7 +6,8 @@ export type Props = {
     title: string;
 };
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = SITE_URL;
 
 const { title } = Astro.props;
 ---
