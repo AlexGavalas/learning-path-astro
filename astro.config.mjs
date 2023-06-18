@@ -8,13 +8,13 @@ import node from '@astrojs/node';
 import vercel from '@astrojs/vercel/edge';
 import { REHYPE_PLUGINS } from './src/config/markdown';
 
-// const isProd = import.meta.env.PROD;
+const isProd = import.meta.env.PROD;
 const isLocalBuild = process.env.LOCAL === 'true';
 
 // https://astro.build/config
 export default defineConfig({
     integrations: [mdx(), sitemap(), react(), tailwind()],
-    // site: isProd ? 'https://learning-path.dev' : 'http://localhost:3000',
+    site: isProd ? 'https://learning-path.dev' : 'http://localhost:3000',
     markdown: {
         rehypePlugins: REHYPE_PLUGINS,
     },
