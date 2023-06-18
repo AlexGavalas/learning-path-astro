@@ -1,5 +1,6 @@
-import type { Database } from './database.types';
 import type { CollectionEntry } from 'astro:content';
+
+import type { Database } from '~types/database.types';
 
 export type Note = Database['public']['Tables']['notes']['Row'];
 

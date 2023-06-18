@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { DEFAULT_THEME, STORAGE_KEY, THEME } from '../constants';
-import { Button } from './button';
+import { DEFAULT_THEME, STORAGE_KEY, THEME } from '~constants';
+import { Button } from '~components/button';
 
 const LIGHT_IMG_PROPS = {
     src: '/moon.svg',

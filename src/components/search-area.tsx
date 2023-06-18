@@ -6,11 +6,11 @@ import {
     useState,
 } from 'react';
 
-import { Loader } from './loader';
-import { Button } from './button';
-import { Input } from './input';
-import { useKeypress } from '../hooks/use-keypress';
-import { QUERY_FIELD_NAME } from '../constants';
+import { Loader } from '~components/loader';
+import { Button } from '~components/button';
+import { Input } from '~components/input';
+import { useKeypress } from '~hooks/use-keypress';
+import { QUERY_FIELD_NAME } from '~constants';
 
 export const SearchArea = ({ q }: { q: string }): JSX.Element => {
     const queryEl = useRef<HTMLInputElement | null>(null);

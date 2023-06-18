@@ -1,12 +1,10 @@
 ---
-import type { MarkdownHeading } from 'astro';
-import type { AstroComponentFactory } from 'astro/dist/runtime/server';
+import type { NotesCollection } from '~types/notes.types';
+import NotesLayout from '~layouts/note.astro';
+import { getAllNoteIds, getNoteData, getNoteMetadata } from '~api/notes';
+import { Markdown } from '~components/markdown';
 
-import type { NotesCollection } from '../../types/notes.types';
-
-import NotesLayout from '../../layouts/note.astro';
-import { getAllNoteIds, getNoteData, getNoteMetadata } from '../../api/notes';
-import { Markdown } from '../../components/markdown';
+type Content = Awaited<ReturnType<typeof getNoteData>>;
 
 export async function getStaticPaths() {
     const posts = await getAllNoteIds();
@@ -44,13 +42,7 @@ export async function getStaticPaths() {
 }
 
 type Props = {
-    content:
-        | string
-        | {
-              Content: AstroComponentFactory;
-              headings: MarkdownHeading[];
-              remarkPluginFrontmatter: Record<string, any>;
-          };
+    content: Content;
     meta: NotesCollection['data'];
 };
 
@@ -62,7 +54,7 @@ const { content, meta } = Astro.props;
         typeof content === 'string' ? (
             <Markdown content={content} />
         ) : (
-            <content.Content />
+            content && <content.Content />
         )
     }
 </NotesLayout>

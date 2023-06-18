@@ -1,8 +1,8 @@
 import { createClient } from '@vercel/edge-config';
 import { getEntryBySlug, getCollection } from 'astro:content';
 
-import { supabase } from '../lib/supabase';
-import type { Note, NotesCollection } from '../types/notes.types';
+import { supabase } from '~lib/supabase';
+import type { Note, NotesCollection } from '~types/notes.types';
 
 type Lines = Record<string, string[]>;
 

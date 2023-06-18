@@ -2,7 +2,7 @@
     "extends": "astro/tsconfigs/strict",
     "compilerOptions": {
         "strictNullChecks": true,
-        "allowImportingTsExtensions": true,
+        "forceConsistentCasingInFileNames": true,
         "jsx": "react-jsx",
         "jsxImportSource": "react",
         "baseUrl": "./src",
@@ -16,10 +16,9 @@
             "~lib/*": ["lib/*"],
             "~pages/*": ["pages/*"],
             "~scripts/*": ["scripts/*"],
-            "~features/*": ["features/*"],
             "~styles/*": ["styles/*"],
-            "~test/*": ["test/*"],
-            "~types/*": ["types/*"]
+            "~types/*": ["types/*"],
+            "~constants": ["constants.ts"]
         }
     }
 }

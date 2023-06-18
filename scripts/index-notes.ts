@@ -3,8 +3,8 @@ import fs from 'fs/promises';
 import matter from 'gray-matter';
 import path from 'path';
 
-import type { NoteFrontmatter } from '../src/types/notes.types';
-import { supabase } from '../src/lib/supabase';
+import type { NoteFrontmatter } from '~types/notes.types';
+import { supabase } from '~lib/supabase';
 import { toISOString, getEnvVariable } from './helpers';
 
 const NOTES_DIR = path.join(process.cwd(), 'src/content/notes');
